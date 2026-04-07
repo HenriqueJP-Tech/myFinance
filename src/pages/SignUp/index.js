@@ -1,4 +1,6 @@
 import { Platform } from "react-native";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/auth";
 import { 
     Background, 
     Container, 
@@ -9,6 +11,13 @@ import {
 } from "../SignIn/styles";
 
 export default function SignUp(){
+
+    const {user} = useContext(AuthContext);
+
+    function handleSignUp(){
+        alert(user.nome + ' preencha todos os campos')
+    }
+
     return(
         <Background>
             <Container
@@ -30,7 +39,7 @@ export default function SignUp(){
                     placeholder="Sua senha"
                 />
             </AreaInput>
-            <SubmitButton>
+            <SubmitButton onPress={handleSignUp}>
                 <SubmitText>
                     Cadastrar
                 </SubmitText>
