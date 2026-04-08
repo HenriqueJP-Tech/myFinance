@@ -1,5 +1,5 @@
 import { Platform } from "react-native";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/auth";
 import { 
     Background, 
@@ -10,12 +10,15 @@ import {
     SubmitText 
 } from "../SignIn/styles";
 
-export default function SignUp(){
 
-    const {user} = useContext(AuthContext);
+export default function SignUp(){
+    const {signUp} = useContext(AuthContext);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     function handleSignUp(){
-        alert(user.nome + ' preencha todos os campos')
+        signUp(name, email, password);
     }
 
     return(
@@ -27,16 +30,23 @@ export default function SignUp(){
             <AreaInput>
                 <Input 
                     placeholder="Nome"
+                    value={name}
+                    onChangeText={(text)=> setName(text)}
                 />
             </AreaInput>
             <AreaInput>
                 <Input 
                     placeholder="Seu e-mail"
+                    value={email}
+                    onChangeText={(text)=> setEmail(text)}
                 />
             </AreaInput>
             <AreaInput>
                 <Input 
                     placeholder="Sua senha"
+                    value={password}
+                    onChangeText={(text)=> setPassword(text)}
+                    secureTextEntry={true}
                 />
             </AreaInput>
             <SubmitButton onPress={handleSignUp}>
