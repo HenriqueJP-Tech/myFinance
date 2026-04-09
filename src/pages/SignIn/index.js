@@ -1,3 +1,4 @@
+import { useState, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { 
     Background, 
@@ -10,10 +11,18 @@ import {
     Link,
     LinkText
 } from "./styles";
-import { Platform } from "react-native";
+import { Platform, ActivityIndicator } from "react-native";
+import { AuthContext } from '../../contexts/auth'
 
 export default function SignIn(){
     const navigaton = useNavigation();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const {signIn, loadingAuth} = useContext(AuthContext);
+
+    function handleLogin(){
+        signIn(email, password);
+    }
 
     return(
         <Background>
@@ -28,17 +37,29 @@ export default function SignIn(){
                 <AreaInput>
                     <Input 
                         placeholder="Seu email"
+                        value={email}
+                        onChangeText={(text) => setEmail(text)}
                     />
                 </AreaInput>
                 <AreaInput>
                     <Input 
                         placeholder="Sua senha"
+                        value={password}
+                        onChangeText={(text) => setPassword(text)}
+                        secureTextEntry={true}
                     />
                 </AreaInput>
-                <SubmitButton activeOpacity={0.8}>
-                    <SubmitText>
-                        Acessar
-                    </SubmitText>
+                <SubmitButton activeOpacity={0.8} onPress={handleLogin}>
+                    {
+                        loadingAuth ? (
+                            <ActivityIndicator size={20} color="#fff"/>
+                        ) : (
+                            <SubmitText>
+                                Acessar
+                            </SubmitText>
+                        )
+                    }
+                    
                 </SubmitButton>
                 <Link onPress={() => navigaton.navigate('SignUp')}>
                     <LinkText>
